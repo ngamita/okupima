@@ -7,7 +7,7 @@
 library(shiny)
 library(markdown)
 
-shinyUI(navbarPage("Ozone Data",
+shinyUI(navbarPage("Airquality Data",
   tabPanel("Visualise",
   
   sidebarLayout(

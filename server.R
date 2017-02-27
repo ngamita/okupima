@@ -4,6 +4,7 @@ library(datasets);
 library(ggplot2)
 
 df<-airquality
+#df <- df
 
 shinyServer(
   function(input,output){
