@@ -7,8 +7,9 @@
 head(df)
 
 
-
-ggplot(df, aes(x=as.Date(timestamp), y=value, colour=description)) +
+# http://stackoverflow.com/questions/3777174/plotting-two-variables-as-lines-using-ggplot2-on-the-same-graph
+# 
+ggplot(df, aes(x=(timestamp), y=value, colour=description)) +
   geom_line()
 
 
@@ -51,3 +52,23 @@ test_data %>%
   gather(key,value, var0, var1) %>%
   ggplot(aes(x=date, y=value, colour=key)) +
   geom_line()
+
+
+
+
+library("reshape2")
+library("ggplot2")
+
+test_data_long <- melt(test_data, id="date")  # convert to long format
+
+ggplot(data=test_data_long,
+       aes(x=date, y=value, colour=variable)) +
+  geom_line()
+
+
+
+library(ggplot2)
+dfr <- data.frame(x = rlnorm(100, sdlog = 3))
+
+
+

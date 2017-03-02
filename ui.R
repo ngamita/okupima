@@ -8,33 +8,34 @@ library(shiny)
 library(markdown)
 
 shinyUI(navbarPage("Airquality Data",
-  tabPanel("Visualise",
+  tabPanel("Graphs",
   
   sidebarLayout(
     sidebarPanel(
       h3("Histogram"),
       helpText("Select a variable to plot a histogram."),
       radioButtons("plot","Variable",
-                   c("Ozone"="Ozone",
-                     "Solar radiation"="Solar.R",
-                     "Wind"="Wind",
-                     "Temperature"="Temp"
+                   c("Temperature"="var0",
+                     "Relative Humidity"="var1",
+                     "Gas Concentration"="var2"
                    )),
       hr(),
       h3("Scatterplot with regression line"),
-      helpText("Select a factor to plot and show regression line for Ozone."),
+      helpText("Select a factor to plot and show regression line for Gas Concentration."),
         selectInput("varx", "X factor:",
-                    choices =c("Solar.R","Wind","Temp")
+                    choices =c("var0","var1")
                    )
     ),
     mainPanel(
       plotOutput("histplot", height="300px"),
-      plotOutput("prediction", height="300px")
+      plotOutput("prediction", height="300px"),
+      plotOutput("lineplot", height="300px")
+      
     )
   )
 ),
   
-  tabPanel("About",
+  tabPanel("Tables",
      mainPanel(
         includeMarkdown("about.md")
      )
