@@ -7,11 +7,20 @@
 library(shiny)
 library(markdown)
 
-shinyUI(navbarPage("Airquality Data",
+shinyUI(navbarPage("PiMaa - Airquality Data",
   tabPanel("Graphs",
   
   sidebarLayout(
     sidebarPanel(
+     # dateRangeInput('dateRange',
+     #                label = 'Date range input: yyyy-mm-dd',
+     #                start = Sys.Date() - 2, end = Sys.Date() + 2
+     # ),
+     dateRangeInput("dates", label = h3("Date range"),
+                     start = "2014-12-01", end = "2014-12-31"
+      
+    ),
+      
       h3("Histogram"),
       helpText("Select a variable to plot a histogram."),
       radioButtons("plot","Variable",
@@ -27,14 +36,13 @@ shinyUI(navbarPage("Airquality Data",
                    )
     ),
     mainPanel(
+      verbatimTextOutput("dateRangeText"),
       plotOutput("lineplot_a", height="300px"),
       plotOutput("lineplot_n", height="300px"),
       plotOutput("boxplot", height="300px"),
       plotOutput("boxplot_o", height="300px"),
       plotOutput("boxplot_n", height="300px")
-      
-      
-      
+
     )
   )
 ),
