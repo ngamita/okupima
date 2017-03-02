@@ -27,9 +27,13 @@ shinyUI(navbarPage("Airquality Data",
                    )
     ),
     mainPanel(
-      plotOutput("histplot", height="300px"),
-      plotOutput("prediction", height="300px"),
-      plotOutput("lineplot", height="300px")
+      plotOutput("lineplot_a", height="300px"),
+      plotOutput("lineplot_n", height="300px"),
+      plotOutput("boxplot", height="300px"),
+      plotOutput("boxplot_o", height="300px"),
+      plotOutput("boxplot_n", height="300px")
+      
+      
       
     )
   )

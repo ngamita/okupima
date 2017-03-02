@@ -1,63 +1,89 @@
-# 
+# Richard Ngamita
+# ngamita@gmail.com
+
+
 library(shiny);
 library(datasets);
 library(ggplot2)
 
-#df<-airquality
-#df <- df
+# Originally should run mysql_connect.R 
+# All secure code there for connection to local db
+# Assuming everything hosted on the same server. 
 
-test_data <-
-  data.frame(
-    var0 = 100 + c(0, cumsum(runif(49, -20, 20))),
-    var1 = 150 + c(0, cumsum(runif(49, -10, 10))),
-    date = seq(as.Date("2002-01-01"), by="1 month", length.out=100)
-  )
-test_data_long <- melt(test_data, id="date")  # convert to long format
-
+# Select on Hum and Temperature. 
+# TODO: Richard --> Fix this with dplyr quite slow. 
+df_dh <- df[, c('description', 'value', 'timestamp')]
+df_rt <- df_dh[df_dh$description %in% c('Temperature','Relative Humidity'),]
 
 shinyServer(
   function(input,output){
-    output$histplot<-renderPlot({
-    Selected_Variable <- test_data_long[, input$plot]
-    p1 <- ggplot(test_data_long, aes(x = Selected_Variable)) + 
-            geom_histogram(alpha=0.5, color="red", binwidth = 3) + 
-      xlab(as.character(input$plot))
-    
-    print(p1)
+    # Getting the right barplots.
+    # General Barplot here for Hum and Temps. 
+    output$lineplot_a <- renderPlot({
+      lp_a <- ggplot(data=df_rt,
+                     aes(x=as.Date(timestamp), y=value, colour=description)) +
+        geom_line(size = 2)
+      print(lp_a)
     })
     
-    output$lineplot <- renderPlot({
-      #Selected_Variable <- df[, input$plot]
-      #p2 <- ggplot(df, aes(x = Selected_Variable)) + 
-        #geom_histogram(alpha=0.5, color="red", binwidth = 3) + 
-        #xlab(as.character(input$plot))
-      p2 <- ggplot(data=test_data_long,
-             aes(x=date, y=value, colour=variable)) +
-        geom_line()
-      print(p2)
+    output$lineplot_n <- renderPlot({
+      # Getting the right barplots.
+      # General llineplot here for Hum and Temps. 
+      # pull out only Noise datasets. 
+      df_n <- df_dh[df_dh$description %in% c('Noise Level'),]
+      lp_n <- ggplot(data=df_n,
+                     aes(x=as.Date(timestamp), y=value, colour=description)) +
+        geom_line(size = 2)
+      print(lp_n)
     })
     
-    var2 <- subset(test_data_long, variable == "var2")[3]
-    output$prediction<-renderPlot({
-        var0 <- subset(test_data_long, variable == "var0")[3]
-        if (input$varx == "var0") {
-           p <- ggplot(data=test_data_long, aes(x=var0, y = var2) )
-           p <- p + xlab("Temp") + ylab("Gas")
-        }
-        else {
-          var1 <- subset(test_data_long, variable == "var1")[3]
-           if (input$varx == "var1") {
-               p <- ggplot(data=test_data_long, aes(x=var1, y = var2) )
-               p <- p + xlab("Humidity") + ylab("Gas")
-           }
-           
-        }
+  
+    output$boxplot <- renderPlot({
+      # Boxplots of the data. with Outliers. 
+            bp <- ggplot(df, aes(x=description, y=value, color = description)) + 
+        geom_boxplot() +
+        theme(legend.position = 'none')
+      print(bp)
+    })
 
-        p <- p + geom_jitter()
-        p <- p + geom_smooth(method = "lm")
-        
-        print(p)
+    output$boxplot_o <- renderPlot({
+      # Boxplots of the data.Remove Outliers. 
+      bp_o <- ggplot(df_rt, aes(x=description, y=value, color = description)) + 
+        geom_boxplot() +
+        theme(legend.position = 'none')
+      print(bp_o)
+    })
+    
+    
+    
+    
+    
+    output$boxplot_n <- renderPlot({
+      # Boxplots of the data.Remove Outliers. 
+      bp_n <- ggplot(df_rt, aes(x=description, y=value, color = description)) + 
+        geom_boxplot(outlier.shape = NA) +
+        theme(legend.position = 'none')
+      print(bp_n)
     })
     
   }
 )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
