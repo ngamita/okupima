@@ -17,7 +17,7 @@ shinyUI(navbarPage("PiMaa - Airquality Data",
      #                start = Sys.Date() - 2, end = Sys.Date() + 2
      # ),
      dateRangeInput("dates", label = h3("Date range"),
-                     start = "2014-12-01", end = "2014-12-31"
+                     start = "2017-01-18", end = "2014-01-30"
       
     ),
       
@@ -36,7 +36,7 @@ shinyUI(navbarPage("PiMaa - Airquality Data",
                    )
     ),
     mainPanel(
-      verbatimTextOutput("dateRangeText"),
+      #verbatimTextOutput("dateRangeText"),
       plotOutput("lineplot_a", height="300px"),
       plotOutput("lineplot_n", height="300px"),
       plotOutput("boxplot", height="300px"),

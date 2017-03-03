@@ -13,11 +13,12 @@ library(ggplot2)
 
 # Select on Hum and Temperature. 
 # TODO: Richard --> Fix this with dplyr quite slow. 
-# df_dh <- df[, c('description', 'value', 'timestamp')]
-# Variables from the dataframe df tha t mainly needed. 
+# TODO: Richard - clean this up soon. 
+df_dh <- df[, c('description', 'value', 'timestamp')]
+# Variables from the dataframe df that mainly needed. 
 labels_obs <- c('Temperature','Relative Humidity')
 
-# Conver timestamp to date only. 
+# Convert timestamp to date only. 
 df$timestamp <- as.Date(df$timestamp)
 
 #df_rt <- df_dh[df_dh$description %in% c('Temperature','Relative Humidity'),]
